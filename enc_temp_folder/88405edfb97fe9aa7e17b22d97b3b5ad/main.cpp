@@ -18,7 +18,7 @@ typedef struct Joueur
 	int coup2[10];
 	char afficheCoup1[10];
 	char afficheCoup2[10];
-	int total = 0;
+	int total[10];
 }Joueur;
 
 void affichageMenu()
@@ -132,7 +132,7 @@ void affichageScore(Joueur * player, int * compteur)
 				}
 				else
 				{
-					cout << player[i].total;
+					cout << player[i].total[j];
 				}
 
 			}
@@ -158,6 +158,7 @@ void jeu(Joueur * player, int * compteur)
 			player[j].coup1[i] = NULL;
 			player[j].coup2[i] = NULL;
 			player[j].point[i] = NULL;
+			player[j].total[i] = NULL;
 		}
 	}
 
@@ -168,6 +169,7 @@ void jeu(Joueur * player, int * compteur)
 			srand(time(NULL));
 			saisie = 'O';
 			system("CLS");
+			affichageScore(player, compteur);
 			cout << endl << endl << "Joueur " << j + 1 << " c'est a ton tours" << endl;
 			cout << "Appuie sur * pour lancer ta boule pour jouer le coup 1 :" << endl;
 			do
@@ -175,7 +177,7 @@ void jeu(Joueur * player, int * compteur)
 				saisie = _getch();
 			} while (saisie != '*');
 			player[j].coup1[i] = rand() % 10 + 1;
-			
+
 			player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
 			if (player[j].bonus == 2 or player[j].bonus == 1)
 			{
@@ -201,7 +203,7 @@ void jeu(Joueur * player, int * compteur)
 				{
 					saisie = _getch();
 				} while (saisie = !'*');
-				player[j].coup2[i] = rand() % nbMax ;
+				player[j].coup2[i] = rand() % nbMax;
 
 				player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
 				if (player[j].bonus == 1)
@@ -219,8 +221,17 @@ void jeu(Joueur * player, int * compteur)
 			}
 
 			player[j].point[i] = player[j].coup1[i] + player[j].coup2[i];
+			if (i != 0)
+			{
+				player[j].total[i] = player[j].total[i - 1] + player[j].point[i];
+			}
+			else
+			{
+				player[j].total[i] = player[j].total[i] + player[j].point[i];
+			}
+				
 
-			player[j].total = player[j].total + player[j].point[i];
+			player[j].total[i] = player[j].total[i-1] + player[j].point[i];
 			affichageScore(player, compteur);
 
 
