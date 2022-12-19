@@ -18,7 +18,9 @@ typedef struct Joueur
 	int coup2[10];
 	char afficheCoup1[10];
 	char afficheCoup2[10];
-	int total [10];
+	int total[10];
+	int coupSup = NULL;
+	char afficheCoupSup = NULL;
 }Joueur;
 
 void affichageMenu()
@@ -54,7 +56,7 @@ void saisie(Joueur * player, int * compteur)
 		{
 			if (prenom1[i] == '\0')
 			{
-				prenom1[i-1] = NULL;
+				prenom1[i - 1] = NULL;
 			}
 		}
 		strcpy(player[*compteur].prenom, prenom1);
@@ -91,15 +93,6 @@ void saisie(Joueur * player, int * compteur)
 }
 
 
-void strike(Joueur * player)
-{
-
-}
-
-void spare(Joueur * player)
-{
-
-}
 
 void affichageScore(Joueur * player, int * compteur)
 {
@@ -119,13 +112,13 @@ void affichageScore(Joueur * player, int * compteur)
 			cout << "|";
 			if (player[i].coup1[j] != NULL)
 			{
-				
+
 				cout << player[i].afficheCoup1[j] << " ";
 			}
-			else if (player[i].coup1[j] == 0)
+			/*else if (player[i].coup1[j] == 0)
 			{
 				cout << "~ ";
-			}
+			}*/
 			else
 			{
 				cout << "   ";
@@ -134,14 +127,21 @@ void affichageScore(Joueur * player, int * compteur)
 			{
 				cout << player[i].afficheCoup2[j] << "  ";
 
-			}
+			}/*
 			else if (player[i].coup1[j] == 0)
 			{
 				cout << "~ ";
-			}
+			}*/
 			else
 			{
 				cout << "  ";
+			}
+			if (j == 9)
+			{
+				if (player[i].coupSup != NULL)
+				{
+					cout << player[i].coupSup<<"  ";
+				}
 			}
 			if (player[i].point[j] != NULL)
 			{
@@ -190,13 +190,14 @@ void jeu(Joueur * player, int * compteur)
 			system("CLS");
 			affichageScore(player, compteur);
 			cout << endl << endl << "Joueur " << j + 1 << " ( " << player[j].prenom << " ) c'est a ton tours" << endl;
-			cout << "Appuie sur * pour lancer ta boule pour jouer le coup 1 :" ;
+			cout << "Appuie sur * pour lancer ta boule pour jouer le coup 1 :";
+
 			//coup1
 			do
 			{
 				saisie = _getch();
 			} while (saisie != '*');
-			
+
 			//nombre aléatoire entre 0 et 10
 			player[j].coup1[i] = rand() % 11;
 
@@ -204,17 +205,18 @@ void jeu(Joueur * player, int * compteur)
 			cout << player[j].coup1[i] << endl << endl;
 
 			//nbmax = reste de quille
-			nbMax = 10 - player[j].coup1[i] +1;
+			nbMax = 10 - player[j].coup1[i] + 1;
 
 			//conversion du coup1 int en afficheCoup1 en char pour l'affichage
 			player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
 
 			//si le coup d'avant était un strike ou un spare alors le coup1 est doublé
-			if (player[j].bonus[i-1] == 2 or player[j].bonus[i-1] ==  1)
+
+			/*if (player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1)
 			{
 				player[j].coup1[i] = player[j].coup1[i] * 2;
-			}
-			
+			}*/
+
 
 			//si strike
 			if (player[j].coup1[i] == 10)
@@ -223,6 +225,35 @@ void jeu(Joueur * player, int * compteur)
 				player[j].coup2[i] = NULL;
 				player[j].afficheCoup1[i] = 'X';
 				cout << endl << "Strike !!!" << endl << endl;
+				if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1))
+				{
+					player[j].coup1[i] = player[j].coup1[i] * 2;
+				}
+				if (i == 9)
+				{
+					player[j].coup2[i] = rand() % 11;
+					if (player[j].coup2[i] == 10)
+					{
+						player[j].afficheCoup2[i] = 'X';
+						
+					}
+					else
+					{
+						player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+					}
+					player[j].coupSup = rand() % 11;
+					if (player[j].coup2[i] == 10)
+					{
+						player[j].afficheCoupSup = 'X';
+
+					}
+					else
+					{
+						player[j].afficheCoupSup = player[j].coupSup + '0';
+					}
+					
+					
+				}
 			}
 			//si premier coup n'est pas trike
 			else
@@ -236,42 +267,70 @@ void jeu(Joueur * player, int * compteur)
 				} while (saisie = !'*');
 
 				//nombre aléatoire entre 0 et le reste de quille
-				player[j].coup2[i] = rand() % nbMax ;
+				player[j].coup2[i] = rand() % nbMax;
 
 				//conversion du coup2 int en afficheCoup2 en char pour l'affichage
 				player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
 
-				//si le coup d'avant était un strike alors le coup2 est doublé
-				if (player[j].bonus[i-1] == 1)
-				{
-					player[j].coup2[i] = player[j].coup2[i] * 2;
-				}
-
 				cout << player[j].coup2[i] << endl << endl;
 
+
+
+
+
+
+				//si spare
 				//si la valeur des deux coups fait 10 alors c'est un spare
 				//on attribu 2 au bonus pour le joueur, correspondant au spare
 				if ((player[j].coup1[i] + player[j].coup2[i]) == 10)
 				{
 					player[j].bonus[i] = 2;
+
+					//si le coup d'avant était un strike alors le coup2 est doublé
+					/*if (player[j].bonus[i - 1] == 1)
+					{
+						player[j].coup2[i] = player[j].coup2[i] * 2;
+					}*/
+
 					player[j].afficheCoup2[i] = '/';
 					cout << endl << "Spare !!" << endl << endl;
+					if (i == 9)
+					{
+						cout << endl << endl << endl << "Coup supplémentaire ! Appuie sur * pour jouer :";
+						do
+						{
+							saisie = _getch();
+						} while (saisie = !'*');
+						player[j].coupSup = rand() % 11;
+					}
 				}
+
+			}
+			//si le coup d'avant était un spare ou strike alors le coup 1 est doublé
+			if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1) )
+			{
+				player[j].coup1[i] = player[j].coup1[i] * 2;
+			}
+
+			//si le coup d'avant était un strike alors le coup 2 est doublé
+			if (player[j].bonus[i - 1] == 1 or player[j].bonus[i] == 1)
+			{
+				player[j].coup2[i] = player[j].coup2[i] * 2;
 			}
 
 			//calcul le total des points du coup
-			player[j].point[i] = player[j].coup1[i] + player[j].coup2[i];
+			player[j].point[i] = player[j].coup1[i] + player[j].coup2[i] + player[j].coupSup;
 
 			//aditionne au total de la partie le total d'avant + le nombre de point actuel si on n'est pas au premier coup
 			if (i != 0)
 			{
-				player[j].total[i] = player[j].total[i-1] + player[j].point[i];
+				player[j].total[i] = player[j].total[i - 1] + player[j].point[i];
 
 			}
 			//si c'est le premier coup alors on attribue au total le nombre de point du premier coup
 			else
 			{
-				player[j].total[i] =  player[j].point[i];
+				player[j].total[i] = player[j].point[i];
 
 			}
 			affichageScore(player, compteur);
@@ -284,6 +343,8 @@ void jeu(Joueur * player, int * compteur)
 			}
 			else
 			{
+				system("CLS");
+				affichageScore(player, compteur);
 				cout << endl << endl << endl << "Appuie sur * pour terminer la partie :";
 			}
 			do
