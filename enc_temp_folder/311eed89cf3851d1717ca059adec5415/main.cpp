@@ -346,11 +346,12 @@ void jeu(Joueur * player, int * compteur)
 				if (player[j].bonus[i - 1] == 1)
 				{
 					player[j].coup2[i] = player[j].coup2[i] * 2;
-					/*if (i != 9 and i!= 0)
+					if (i != 9 and i!= 0)
 					{
 						if (player[j].bonus[i - 1] == 1 and player[j].bonus[i-3] == 1 and player[j].bonus[i-2] == 1)
 						{
-							player[j].coup1[i] = player[j].coup1[i] * 3;
+							player[j].coup1[i] = player[j].coup1[i] * 2;
+							player[j].coup2[i] = player[j].coup2[i] * 2;
 							player[j].coup2[i] = player[j].coup2[i] + 20;
 							player[j].afficheCoup2[i] = 0;
 							break;
@@ -359,10 +360,11 @@ void jeu(Joueur * player, int * compteur)
 						if ((player[j].bonus[i - 1] == 1 and player[j].bonus[i-2] == 1))
 						{
 							player[j].coup1[i] = player[j].coup1[i] *3;
+							player[j].coup2[i] = player[j].coup2[i] * 2;
 							player[j].coup2[i] = player[j].coup2[i] +10;
 							player[j].afficheCoup2[i] = 0;
 
-						}*/
+						}
 						
 						//if (player[j].bonus[i - 1] == 1 and player[j].bonus[i] == 1 and player[j].bonus[i - 2] == 1 and player[j].bonus[i - 3] == 1)
 						//{
@@ -372,7 +374,7 @@ void jeu(Joueur * player, int * compteur)
 
 						//}
 
-					//}
+					}
 				}
 
 				//calcul le total des points du coup
