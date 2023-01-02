@@ -63,7 +63,15 @@ void saisie(Joueur * player, int * compteur)
 		if (*compteur != 5)
 		{
 			cout << "souhaitez vous ajouter un autre joueur ? (1 pour oui, 0 pour non) : ";
-			cin >> saisieJoueur;
+			do
+			{
+				if (saisieJoueur != 0 and saisieJoueur != 1)
+				{
+					cout << endl<< "Entre 0 et 1 (1 pour oui, 0 pour non) : "<<endl;
+				}
+				
+				cin >> saisieJoueur;
+			} while (saisieJoueur != 0 and saisieJoueur != 1);
 			int c = 0;
 			while (c != '\n' && c != EOF)
 			{
@@ -93,6 +101,84 @@ void saisie(Joueur * player, int * compteur)
 }
 
 
+
+void affichageScoreFinal(Joueur * player, int * compteur)
+{
+
+	for (int i = 0; i < *compteur; i++)
+	{
+		if (i != 0)
+		{
+			cout << endl << endl << player[i].prenom << endl;
+		}
+		else
+		{
+			cout << player[i].prenom << endl;
+		}
+		for (int j = 0; j < 10; j++)
+		{
+			cout << "|";
+			if (player[i].coup1[j] != NULL)
+			{
+
+				cout << player[i].afficheCoup1[j] << " ";
+			}
+			/*else if (player[i].coup1[j] == 0)
+			{
+				cout << "~ ";
+			}*/
+			else
+			{
+				cout << "   ";
+			}
+			if (player[i].coup2[j] != NULL)
+			{
+				cout << player[i].afficheCoup2[j] << "  ";
+
+			}/*
+			else if (player[i].coup1[j] == 0)
+			{
+				cout << "~ ";
+			}*/
+			else
+			{
+				cout << "  ";
+			}
+			if (j == 9)
+			{
+				if (player[i].coupSup != NULL)
+				{
+					cout << player[i].coupSup << "  ";
+				}
+			}
+			if (player[i].point[j] != NULL)
+			{
+				if (player[i].point[j] == 10)
+				{
+					cout << "  ";
+				}
+				else
+				{
+					cout << player[i].total[j];
+				}
+
+			}
+			else
+			{
+				cout << " ";
+			}
+			if (j == 9) 
+			{
+				cout << " | Score : "<< player[i].total[j];
+				
+			}
+			
+		}
+
+	}
+
+
+}
 
 void affichageScore(Joueur * player, int * compteur)
 {
@@ -159,8 +245,10 @@ void affichageScore(Joueur * player, int * compteur)
 			{
 				cout << " ";
 			}
+
 		}
 		cout << "|";
+
 	}
 
 
@@ -169,7 +257,7 @@ void affichageScore(Joueur * player, int * compteur)
 void jeu(Joueur * player, int * compteur)
 {
 	int partie;
-	
+
 	do
 	{
 		system("CLS");
@@ -340,7 +428,7 @@ void jeu(Joueur * player, int * compteur)
 				{
 					player[j].coup1[i] = player[j].coup1[i] * 2;
 				}
-				
+
 
 				//si le coup d'avant était un strike alors le coup 2 est doublé
 				if (player[j].bonus[i - 1] == 1)
@@ -363,14 +451,7 @@ void jeu(Joueur * player, int * compteur)
 							player[j].afficheCoup2[i] = 0;
 
 						}*/
-						
-						//if (player[j].bonus[i - 1] == 1 and player[j].bonus[i] == 1 and player[j].bonus[i - 2] == 1 and player[j].bonus[i - 3] == 1)
-						//{
-						//	/*player[j].coup1[i] = player[j].coup1[i] * 2;*/
-						//	player[j].coup2[i] = player[j].coup2[i] + 10;
-						//	player[j].afficheCoup2[i] = 0;
 
-						//}
 
 					//}
 				}
@@ -398,7 +479,7 @@ void jeu(Joueur * player, int * compteur)
 				{
 					cout << endl << endl << endl << "Appuie sur * pour passer au joueur suivant :";
 				}
-				else
+				/*else
 				{
 					system("CLS");
 					affichageScore(player, compteur);
@@ -407,12 +488,26 @@ void jeu(Joueur * player, int * compteur)
 				do
 				{
 					saisie = _getch();
-				} while (saisie != '*');
-
+				} while (saisie != '*');*/
+				if (i != 9)
+				{
+					system("CLS");
+					cout << endl << endl << endl << "Appuie sur * pour passer au joueur suivant :";
+					
+				}
 			}
 		}
+		
+		system("CLS");
+		affichageScoreFinal(player, compteur);
+		cout << endl << endl << endl << "Appuie sur 1 pour terminer la partie :";
+		do
+		{
+			saisie = _getch();
+		} while (saisie != '1');
+		system("CLS");
 		partie = 1;
-		cout << endl<<endl<<"souhaitez vous relancer une partie ? (1 pour oui, 0 pour non) : ";
+		cout <<"souhaitez vous relancer une partie ? (1 pour oui, 0 pour non) : ";
 		cin >> partie;
 		int c = 0;
 		while (c != '\n' && c != EOF)
@@ -426,10 +521,7 @@ int main(int argc, char ** argv)
 {
 	Joueur player[SIZE];
 	int compteur = 0;
-	/*affichageMenu();
-	saisie(player, &compteur);*/
 	jeu(player, &compteur);
-	affichageScore(player, &compteur);
 
 	return 0;
 }
