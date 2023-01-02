@@ -140,7 +140,7 @@ void affichageScore(Joueur * player, int * compteur)
 			{
 				if (player[i].coupSup != NULL)
 				{
-					cout << player[i].coupSup<<"  ";
+					cout << player[i].coupSup << "  ";
 				}
 			}
 			if (player[i].point[j] != NULL)
@@ -168,200 +168,269 @@ void affichageScore(Joueur * player, int * compteur)
 
 void jeu(Joueur * player, int * compteur)
 {
-	char saisie;
-	int nbMax = 0;
-	for (int i = 0; i < 10; i++)
+	int partie;
+	
+	do
 	{
-		for (int j = 0; j < *compteur; j++)
+		system("CLS");
+		affichageMenu();
+		saisie(player, compteur);
+		char saisie;
+		int nbMax = 0;
+		for (int i = 0; i < 10; i++)
 		{
-			player[j].coup1[i] = NULL;
-			player[j].coup2[i] = NULL;
-			player[j].point[i] = NULL;
-			player[j].bonus[i] = 0;
-		}
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		for (int j = 0; j < *compteur; j++)
-		{
-			srand(time(NULL));
-			saisie = 'O';
-			system("CLS");
-			affichageScore(player, compteur);
-			cout << endl << endl << "Joueur " << j + 1 << " ( " << player[j].prenom << " ) c'est a ton tours" << endl;
-			cout << "Appuie sur * pour lancer ta boule pour jouer le coup 1 :";
-
-			//coup1
-			do
+			for (int j = 0; j < *compteur; j++)
 			{
-				saisie = _getch();
-			} while (saisie != '*');
-
-			//nombre aléatoire entre 0 et 10
-			player[j].coup1[i] = rand() % 11;
-
-			//affiche coup tiré
-			cout << player[j].coup1[i] << endl << endl;
-
-			//nbmax = reste de quille
-			nbMax = 10 - player[j].coup1[i] + 1;
-
-			//conversion du coup1 int en afficheCoup1 en char pour l'affichage
-			player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
-
-			//si le coup d'avant était un strike ou un spare alors le coup1 est doublé
-
-			/*if (player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1)
-			{
-				player[j].coup1[i] = player[j].coup1[i] * 2;
-			}*/
-
-
-			//si strike
-			if (player[j].coup1[i] == 10)
-			{
-				player[j].bonus[i] = 1;
+				player[j].coup1[i] = NULL;
 				player[j].coup2[i] = NULL;
-				player[j].afficheCoup1[i] = 'X';
-				cout << endl << "Strike !!!" << endl << endl;
-				if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1))
-				{
-					player[j].coup1[i] = player[j].coup1[i] * 2;
-				}
-				if (i == 9)
-				{
-					player[j].coup2[i] = rand() % 11;
-					if (player[j].coup2[i] == 10)
-					{
-						player[j].afficheCoup2[i] = 'X';
-						
-					}
-					else
-					{
-						player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
-					}
-					player[j].coupSup = rand() % 11;
-					if (player[j].coup2[i] == 10)
-					{
-						player[j].afficheCoupSup = 'X';
-
-					}
-					else
-					{
-						player[j].afficheCoupSup = player[j].coupSup + '0';
-					}
-					
-					
-				}
+				player[j].point[i] = NULL;
+				player[j].bonus[i] = 0;
+				player[j].coupSup = 0;
 			}
-			//si premier coup n'est pas trike
-			else
+		}
+
+		for (int i = 0; i < 10; i++)
+		{
+			for (int j = 0; j < *compteur; j++)
 			{
 				srand(time(NULL));
+				saisie = 'O';
+				system("CLS");
 				affichageScore(player, compteur);
-				cout << endl << endl << endl << "Appuie sur * pour jouer le coup 2 :";
+				cout << endl << endl << "Joueur " << j + 1 << " ( " << player[j].prenom << " ) c'est a ton tours" << endl;
+				cout << "Appuie sur * pour lancer ta boule pour jouer le coup 1 :";
+
+				//coup1
 				do
 				{
 					saisie = _getch();
-				} while (saisie = !'*');
+				} while (saisie != '*');
 
-				//nombre aléatoire entre 0 et le reste de quille
-				player[j].coup2[i] = rand() % nbMax;
+				//nombre aléatoire entre 0 et 10
+				player[j].coup1[i] = rand() % 11;
 
-				//conversion du coup2 int en afficheCoup2 en char pour l'affichage
-				player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+				//affiche coup tiré
+				cout << player[j].coup1[i] << endl << endl;
 
-				cout << player[j].coup2[i] << endl << endl;
+				//nbmax = reste de quille
+				nbMax = 10 - player[j].coup1[i] + 1;
 
+				//conversion du coup1 int en afficheCoup1 en char pour l'affichage
+				player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
 
+				//si le coup d'avant était un strike ou un spare alors le coup1 est doublé
 
-
-
-
-				//si spare
-				//si la valeur des deux coups fait 10 alors c'est un spare
-				//on attribu 2 au bonus pour le joueur, correspondant au spare
-				if ((player[j].coup1[i] + player[j].coup2[i]) == 10)
+				/*if (player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1)
 				{
-					player[j].bonus[i] = 2;
+					player[j].coup1[i] = player[j].coup1[i] * 2;
+				}*/
 
-					//si le coup d'avant était un strike alors le coup2 est doublé
-					/*if (player[j].bonus[i - 1] == 1)
+
+				//si strike
+				if (player[j].coup1[i] == 10)
+				{
+					player[j].bonus[i] = 1;
+					player[j].coup2[i] = NULL;
+					player[j].afficheCoup1[i] = 'X';
+					cout << endl << "Strike !!!" << endl << endl;
+					/*if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1))
 					{
-						player[j].coup2[i] = player[j].coup2[i] * 2;
+						player[j].coup1[i] = player[j].coup1[i] * 2;
 					}*/
-
-					player[j].afficheCoup2[i] = '/';
-					cout << endl << "Spare !!" << endl << endl;
 					if (i == 9)
 					{
-						cout << endl << endl << endl << "Coup supplémentaire ! Appuie sur * pour jouer :";
-						do
+						player[j].coup2[i] = rand() % 11;
+						if (player[j].coup2[i] == 10)
 						{
-							saisie = _getch();
-						} while (saisie = !'*');
-						player[j].coupSup = rand() % 11;
+							player[j].afficheCoup2[i] = 'X';
+							player[j].coupSup = rand() % 11;
+							if (player[j].coupSup == 10)
+							{
+								player[j].afficheCoupSup = 'X';
+
+							}
+							else
+							{
+								player[j].afficheCoupSup = player[j].coupSup + '0';
+							}
+
+						}
+						else
+						{
+							player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+							nbMax = 10 - player[j].coup2[i] + 1;
+							player[j].coupSup = rand() % nbMax;
+							if (player[j].coup2[i] + player[j].coupSup == 10)
+							{
+								player[j].afficheCoupSup = '/';
+							}
+							else
+							{
+								player[j].afficheCoupSup = player[j].coupSup + '0';
+							}
+
+						}
+						/*
+						if (player[j].coupSup == 10)
+						{
+							player[j].afficheCoupSup = 'X';
+
+						}
+						else
+						{
+							player[j].afficheCoupSup = player[j].coupSup + '0';
+						}
+						*/
+
+					}
+				}
+				//si premier coup n'est pas trike
+				else
+				{
+					srand(time(NULL));
+					affichageScore(player, compteur);
+					cout << endl << endl << endl << "Appuie sur * pour jouer le coup 2 :";
+					do
+					{
+						saisie = _getch();
+					} while (saisie = !'*');
+
+					//nombre aléatoire entre 0 et le reste de quille
+					player[j].coup2[i] = rand() % nbMax;
+
+					//conversion du coup2 int en afficheCoup2 en char pour l'affichage
+					player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+
+					cout << player[j].coup2[i] << endl << endl;
+
+
+
+
+
+
+					//si spare
+					//si la valeur des deux coups fait 10 alors c'est un spare
+					//on attribu 2 au bonus pour le joueur, correspondant au spare
+					if ((player[j].coup1[i] + player[j].coup2[i]) == 10)
+					{
+						player[j].bonus[i] = 2;
+
+						//si le coup d'avant était un strike alors le coup2 est doublé
+						/*if (player[j].bonus[i - 1] == 1)
+						{
+							player[j].coup2[i] = player[j].coup2[i] * 2;
+						}*/
+
+						player[j].afficheCoup2[i] = '/';
+						cout << endl << "Spare !!" << endl << endl;
+						if (i == 9)
+						{
+							cout << endl << endl << endl << "Coup supplémentaire ! Appuie sur * pour jouer :";
+							do
+							{
+								saisie = _getch();
+							} while (saisie = !'*');
+							player[j].coupSup = rand() % 11;
+						}
+					}
+
+				}
+				//si le coup d'avant était un spare ou strike alors le coup 1 est doublé
+				if ((player[j].bonus[i - 1] == 2 /*or player[j].bonus[i - 1] == 1*/))
+				{
+					player[j].coup1[i] = player[j].coup1[i] * 2;
+				}
+				if (player[j].bonus[i - 1] == 1)
+				{
+					player[j].coup1[i - 1] = player[j].coup1[i - 1] + player[j].coup1[i];
+					player[j].coup2[i - 1] = player[j].coup2[i - 1] + player[j].coup2[i];
+				}
+				
+
+				//si le coup d'avant était un strike alors le coup 2 est doublé
+				if (player[j].bonus[i - 1] == 1)
+				{
+					player[j].coup2[i] = player[j].coup2[i] * 2;
+					if (i != 9)
+					{
+						if ((player[j].bonus[i - 1] == 1 and player[j].bonus[i-2] == 1))
+						{
+							player[j].coup1[i] = player[j].coup1[i] * 2;
+							player[j].coup2[i] = player[j].coup2[i] + 10;
+							player[j].afficheCoup2[i] = 0;
+
+						}
+						if (player[j].bonus[i - 1] == 1 and player[j].bonus[i] == 1 and player[j].bonus[i-2] == 1)
+						{
+							/*player[j].coup1[i] = player[j].coup1[i] * 2;*/
+							player[j].coup2[i] = player[j].coup2[i] + 10;
+							player[j].afficheCoup2[i] = 0;
+
+						}
+						if (player[j].bonus[i - 1] == 1 and player[j].bonus[i] == 1 and player[j].bonus[i - 2] == 1 and player[j].bonus[i - 3] == 1)
+						{
+							/*player[j].coup1[i] = player[j].coup1[i] * 2;*/
+							player[j].coup2[i] = player[j].coup2[i] + 10;
+							player[j].afficheCoup2[i] = 0;
+
+						}
+
 					}
 				}
 
-			}
-			//si le coup d'avant était un spare ou strike alors le coup 1 est doublé
-			if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1) )
-			{
-				player[j].coup1[i] = player[j].coup1[i] * 2;
-			}
+				//calcul le total des points du coup
+				player[j].point[i] = player[j].coup1[i] + player[j].coup2[i] + player[j].coupSup;
 
-			//si le coup d'avant était un strike alors le coup 2 est doublé
-			if (player[j].bonus[i - 1] == 1 or player[j].bonus[i] == 1)
-			{
-				player[j].coup2[i] = player[j].coup2[i] * 2;
-			}
+				//aditionne au total de la partie le total d'avant + le nombre de point actuel si on n'est pas au premier coup
+				if (i != 0)
+				{
+					player[j].total[i] = player[j].total[i - 1] + player[j].point[i];
 
-			//calcul le total des points du coup
-			player[j].point[i] = player[j].coup1[i] + player[j].coup2[i] + player[j].coupSup;
+				}
+				//si c'est le premier coup alors on attribue au total le nombre de point du premier coup
+				else
+				{
+					player[j].total[i] = player[j].point[i];
 
-			//aditionne au total de la partie le total d'avant + le nombre de point actuel si on n'est pas au premier coup
-			if (i != 0)
-			{
-				player[j].total[i] = player[j].total[i - 1] + player[j].point[i];
-
-			}
-			//si c'est le premier coup alors on attribue au total le nombre de point du premier coup
-			else
-			{
-				player[j].total[i] = player[j].point[i];
-
-			}
-			affichageScore(player, compteur);
-
-
-			saisie = 'O';
-			if (i != 9)
-			{
-				cout << endl << endl << endl << "Appuie sur * pour passer au joueur suivant :";
-			}
-			else
-			{
-				system("CLS");
+				}
 				affichageScore(player, compteur);
-				cout << endl << endl << endl << "Appuie sur * pour terminer la partie :";
-			}
-			do
-			{
-				saisie = _getch();
-			} while (saisie != '*');
 
+
+				saisie = 'O';
+				if (i != 9)
+				{
+					cout << endl << endl << endl << "Appuie sur * pour passer au joueur suivant :";
+				}
+				else
+				{
+					system("CLS");
+					affichageScore(player, compteur);
+					cout << endl << endl << endl << "Appuie sur * pour terminer la partie :";
+				}
+				do
+				{
+					saisie = _getch();
+				} while (saisie != '*');
+
+			}
 		}
-	}
+		partie = 1;
+		cout << endl<<endl<<"souhaitez vous relancer une partie ? (1 pour oui, 0 pour non) : ";
+		cin >> partie;
+		int c = 0;
+		while (c != '\n' && c != EOF)
+		{
+			c = getchar();
+		}
+	} while (partie != 0);
 }
 
 int main(int argc, char ** argv)
 {
 	Joueur player[SIZE];
 	int compteur = 0;
-	affichageMenu();
-	saisie(player, &compteur);
+	/*affichageMenu();
+	saisie(player, &compteur);*/
 	jeu(player, &compteur);
 	affichageScore(player, &compteur);
 
