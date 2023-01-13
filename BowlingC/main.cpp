@@ -86,7 +86,7 @@ void saisie(Joueur * player, int * compteur)
 	//for (int i = 0; i < SIZE; i++)
 	//{
 	//	
-	//	cout << "Entrez le nom du joueur " << i + 1 << " : ";
+	//	cout << "Entrez le nnom du joueur " << i + 1 << " : ";
 	//	cin >> prenom1;
 	//	/*fgets(prenom1, 20, stdin);*/
 	//	if (prenom1 == "test")
