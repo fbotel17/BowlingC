@@ -26,7 +26,7 @@ typedef struct Joueur
 void affichageMenu()
 {
 	int continuer = 0;
-	cout << "Bienvenue dans le jeu du bowling !!" << endl;
+	cout << "Bienvenue dans le jeu du bowlingkk !!" << endl;
 	cout << endl << "Vous pouvez entrer un nombre maximum de 6 joueurs !" << endl;
 	cout << "Les regles sont tres simple : obtenir le score le plus haut. Pour cela, les strikes et les spares sont recommandes !!" << endl;
 
