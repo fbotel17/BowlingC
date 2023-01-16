@@ -16,6 +16,7 @@ typedef struct Joueur
 	int bonus[10];
 	int coup1[10];
 	int coup2[10];
+	int strikeBonus[10];
 	char afficheCoup1[10];
 	char afficheCoup2[10];
 	int total[10];
@@ -272,6 +273,7 @@ void jeu(Joueur * player, int * compteur)
 				player[j].coup1[i] = NULL;
 				player[j].coup2[i] = NULL;
 				player[j].point[i] = NULL;
+				player[j].strikeBonus[i] = NULL;
 				player[j].bonus[i] = 0;
 				player[j].coupSup = 0;
 			}
@@ -325,6 +327,14 @@ void jeu(Joueur * player, int * compteur)
 					{
 						player[j].coup1[i] = player[j].coup1[i] * 2;
 					}*/
+					if (player[j].bonus[i - 1] == 1)
+					{
+						player[j].strikeBonus[i] = 2;
+						if (player[j].strikeBonus[i - 1] == 2)
+						{
+							player[j].strikeBonus[i] = 3;
+						}
+					}
 					if (i == 9)
 					{
 						player[j].coup2[i] = rand() % 11;
@@ -358,6 +368,7 @@ void jeu(Joueur * player, int * compteur)
 							}
 
 						}
+						
 						/*
 						if (player[j].coupSup == 10)
 						{
@@ -371,6 +382,7 @@ void jeu(Joueur * player, int * compteur)
 						*/
 
 					}
+					
 				}
 				//si premier coup n'est pas trike
 				else
@@ -423,10 +435,69 @@ void jeu(Joueur * player, int * compteur)
 					}
 
 				}
+
+
+
+				/*if (player[j].strikeBonus[i - 1] == 3)
+				{
+					player[j].total[i - 1] = player[j].total[i - 1] - 30;
+					player[j].total[i - 1] = player[j].total[i - 1] + 30;
+				}*/
+				/*else 
+				{*/
+					//if (player[j].strikeBonus[i - 1] == 2)
+					//{
+					//	/*player[j].point[i-1] = 20;*/
+					//	/*if (player[j].coup1[i] != 10) 
+					//	{
+					//		player[j].coup1[i] = player[j].coup1[i] * 2;
+					//	}*/
+					//	
+					//	player[j].total[i - 1] = player[j].total[i - 1] + 20;
+
+					//}
+				//}
+				
+				
+				/*if (player[j].strikeBonus[i - 1] == 2)
+				{
+					player[j].coup1[i] = player[j].coup1[i] * 2;
+				}
+				
+				if (player[j].strikeBonus[i - 1] == 3)
+				{
+					player[j].coup1[i] = player[j].coup1[i] * 2;
+				}*/
+
+
+
+
+				
+
+
 				//si le coup d'avant était un spare ou strike alors le coup 1 est doublé
 				if (player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1)
 				{
-					player[j].coup1[i] = player[j].coup1[i] * 2;
+					
+					if (player[j].strikeBonus[i - 1] == 2)
+					{
+						/*player[j].point[i-1] = 20;*/
+						/*if (player[j].coup1[i] != 10)
+						{
+							player[j].coup1[i] = player[j].coup1[i] * 2;
+						}*/
+
+						player[j].coup1[i] = player[j].coup1[i] * 3;
+
+					}
+					else if (player[j].strikeBonus[i - 1] == 3)
+					{
+						player[j].coup1[i] = player[j].coup1[i] * 4;
+					}
+					else
+					{
+						player[j].coup1[i] = player[j].coup1[i] * 2;
+					}
 				}
 
 
@@ -434,27 +505,32 @@ void jeu(Joueur * player, int * compteur)
 				if (player[j].bonus[i - 1] == 1)
 				{
 					player[j].coup2[i] = player[j].coup2[i] * 2;
-					/*if (i != 9 and i!= 0)
+
+					
+					/*if (player[j].bonus[i - 2] == 1 and player[j].bonus[i - 3] == 1 )
 					{
-						if (player[j].bonus[i - 1] == 1 and player[j].bonus[i-3] == 1 and player[j].bonus[i-2] == 1)
+						player[j].coup1[i] = player[j].coup1[i] * 2;
+						player[j].coup1[i - 3] = player[j].coup1[i - 3] + 10;
+
+					}
+
+					else
+					{
+						if (player[j].bonus[i - 2] == 1)
 						{
-							player[j].coup1[i] = player[j].coup1[i] * 3;
-							player[j].coup2[i] = player[j].coup2[i] + 20;
-							player[j].afficheCoup2[i] = 0;
-							break;
+							player[j].coup1[i] = player[j].coup1[i] * 2;
 
 						}
-						if ((player[j].bonus[i - 1] == 1 and player[j].bonus[i-2] == 1))
+						if (player[j].bonus[i - 3] == 1 and player[j].bonus[i - 2] == 1)
 						{
-							player[j].coup1[i] = player[j].coup1[i] *3;
-							player[j].coup2[i] = player[j].coup2[i] +10;
-							player[j].afficheCoup2[i] = 0;
+							player[j].coup1[i - 3] = player[j].coup1[i - 3] - 10;
 
-						}*/
+						}
+					}*/
 
-
-					//}
 				}
+
+				
 
 				//calcul le total des points du coup
 				player[j].point[i] = player[j].coup1[i] + player[j].coup2[i] + player[j].coupSup;
