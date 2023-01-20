@@ -285,7 +285,6 @@ void jeu(Joueur* player, int* compteur)
 		{
 			for (int j = 0; j < *compteur; j++)
 			{
-				srand(time(NULL));
 				saisie = 'O';
 				system("CLS");
 				affichageScore(player, compteur);
@@ -403,7 +402,6 @@ void jeu(Joueur* player, int* compteur)
 				//si premier coup n'est pas trike
 				else
 				{
-					srand(time(NULL));
 					affichageScore(player, compteur);
 					cout << endl << endl << endl << "Appuie sur * pour jouer le coup 2 :";
 					do
@@ -621,6 +619,7 @@ void jeu(Joueur* player, int* compteur)
 
 int main(int argc, char** argv)
 {
+	srand(time(NULL));
 	Joueur player[SIZE];
 	int compteur = 0;
 	jeu(player, &compteur);
