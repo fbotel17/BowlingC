@@ -119,7 +119,7 @@ void affichageScoreFinal(Joueur* player, int* compteur)
 		for (int j = 0; j < 10; j++)
 		{
 			cout << "|";
-			if (player[i].coup1[j] != NULL)
+			if (player[i].afficheCoup1[j] != NULL)
 			{
 
 				cout << player[i].afficheCoup1[j] << " ";
@@ -132,7 +132,7 @@ void affichageScoreFinal(Joueur* player, int* compteur)
 			{
 				cout << "   ";
 			}
-			if (player[i].coup2[j] != NULL)
+			if (player[i].afficheCoup2[j] != NULL)
 			{
 				cout << player[i].afficheCoup2[j] << "  ";
 
@@ -197,7 +197,7 @@ void affichageScore(Joueur* player, int* compteur)
 		for (int j = 0; j < 10; j++)
 		{
 			cout << "|";
-			if (player[i].coup1[j] != NULL)
+			if (player[i].afficheCoup1 != NULL)
 			{
 
 				cout << player[i].afficheCoup1[j] << " ";
@@ -210,7 +210,7 @@ void affichageScore(Joueur* player, int* compteur)
 			{
 				cout << "   ";
 			}
-			if (player[i].coup2[j] != NULL)
+			if (player[i].afficheCoup1 != NULL)
 			{
 				cout << player[i].afficheCoup2[j] << "  ";
 
@@ -244,7 +244,7 @@ void affichageScore(Joueur* player, int* compteur)
 			}
 			else
 			{
-				cout << " ";
+				cout << "   ";
 			}
 
 		}
@@ -272,6 +272,8 @@ void jeu(Joueur* player, int* compteur)
 			{
 				player[j].coup1[i] = NULL;
 				player[j].coup2[i] = NULL;
+				player[j].afficheCoup1[i] = NULL;
+				player[j].afficheCoup2[i] = NULL;
 				player[j].point[i] = NULL;
 				player[j].strikeBonus[i] = NULL;
 				player[j].bonus[i] = 0;
@@ -305,8 +307,17 @@ void jeu(Joueur* player, int* compteur)
 				//nbmax = reste de quille
 				nbMax = 10 - player[j].coup1[i] + 1;
 
-				//conversion du coup1 int en afficheCoup1 en char pour l'affichage
-				player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
+				if (player[j].coup1[i] == 0)
+				{
+					player[j].afficheCoup1[i] = '-';
+				}
+				else
+				{
+					//conversion du coup1 int en afficheCoup1 en char pour l'affichage
+					player[j].afficheCoup1[i] = player[j].coup1[i] + '0';
+				}
+
+				
 
 				//si le coup d'avant était un strike ou un spare alors le coup1 est doublé
 
@@ -334,6 +345,10 @@ void jeu(Joueur* player, int* compteur)
 						{
 							player[j].strikeBonus[i] = 3;
 						}
+						if (player[j].strikeBonus[i - 1] == 3)
+						{
+							player[j].strikeBonus[i] = 3;
+						}
 					}
 					if (i == 9)
 					{
@@ -350,6 +365,7 @@ void jeu(Joueur* player, int* compteur)
 							else
 							{
 								player[j].afficheCoupSup = player[j].coupSup + '0';
+
 							}
 
 						}
@@ -398,8 +414,18 @@ void jeu(Joueur* player, int* compteur)
 					//nombre aléatoire entre 0 et le reste de quille
 					player[j].coup2[i] = rand() % nbMax;
 
+
+					if (player[j].coup2[i] == 0)
+					{
+						player[j].afficheCoup2[i] = '-';
+					}
+					else
+					{
+						//conversion du coup1 int en afficheCoup1 en char pour l'affichage
+						player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+					}
 					//conversion du coup2 int en afficheCoup2 en char pour l'affichage
-					player[j].afficheCoup2[i] = player[j].coup2[i] + '0';
+					
 
 					cout << player[j].coup2[i] << endl << endl;
 
@@ -492,7 +518,7 @@ void jeu(Joueur* player, int* compteur)
 					}
 					else if (player[j].strikeBonus[i - 1] == 3)
 					{
-						player[j].coup1[i] = player[j].coup1[i] * 4;
+						player[j].coup1[i] = player[j].coup1[i] * 3;
 					}
 					else
 					{
