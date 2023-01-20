@@ -83,22 +83,6 @@ void saisie(Joueur* player, int* compteur)
 
 	} while (saisieJoueur != 0 and *compteur != 6);
 
-
-	//for (int i = 0; i < SIZE; i++)
-	//{
-	//	
-	//	cout << "Entrez le nnom du joueur " << i + 1 << " : ";
-	//	cin >> prenom1;
-	//	/*fgets(prenom1, 20, stdin);*/
-	//	if (prenom1 == "test")
-	//	{
-	//		cout << "test1111";
-	//		break;
-	//	}/*
-	//	strcpy(player[i].prenom, prenom1);
-	//	cout << player[i].prenom;*/
-
-	//}
 }
 
 
@@ -124,10 +108,6 @@ void affichageScoreFinal(Joueur* player, int* compteur)
 
 				cout << player[i].afficheCoup1[j] << " ";
 			}
-			/*else if (player[i].coup1[j] == 0)
-			{
-				cout << "~ ";
-			}*/
 			else
 			{
 				cout << "   ";
@@ -136,11 +116,7 @@ void affichageScoreFinal(Joueur* player, int* compteur)
 			{
 				cout << player[i].afficheCoup2[j] << "  ";
 
-			}/*
-			else if (player[i].coup1[j] == 0)
-			{
-				cout << "~ ";
-			}*/
+			}
 			else
 			{
 				cout << "  ";
@@ -202,10 +178,6 @@ void affichageScore(Joueur* player, int* compteur)
 
 				cout << player[i].afficheCoup1[j] << " ";
 			}
-			/*else if (player[i].coup1[j] == 0)
-			{
-				cout << "~ ";
-			}*/
 			else
 			{
 				cout << "   ";
@@ -214,11 +186,7 @@ void affichageScore(Joueur* player, int* compteur)
 			{
 				cout << player[i].afficheCoup2[j] << "  ";
 
-			}/*
-			else if (player[i].coup1[j] == 0)
-			{
-				cout << "~ ";
-			}*/
+			}
 			else
 			{
 				cout << "  ";
@@ -318,13 +286,6 @@ void jeu(Joueur* player, int* compteur)
 
 				
 
-				//si le coup d'avant était un strike ou un spare alors le coup1 est doublé
-
-				/*if (player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1)
-				{
-					player[j].coup1[i] = player[j].coup1[i] * 2;
-				}*/
-
 
 				//si strike
 				if (player[j].coup1[i] == 10)
@@ -333,10 +294,6 @@ void jeu(Joueur* player, int* compteur)
 					player[j].coup2[i] = NULL;
 					player[j].afficheCoup1[i] = 'X';
 					cout << endl << "Strike !!!" << endl << endl;
-					/*if ((player[j].bonus[i - 1] == 2 or player[j].bonus[i - 1] == 1))
-					{
-						player[j].coup1[i] = player[j].coup1[i] * 2;
-					}*/
 					if (player[j].bonus[i - 1] == 1)
 					{
 						player[j].strikeBonus[i] = 2;
@@ -384,18 +341,6 @@ void jeu(Joueur* player, int* compteur)
 
 						}
 
-						/*
-						if (player[j].coupSup == 10)
-						{
-							player[j].afficheCoupSup = 'X';
-
-						}
-						else
-						{
-							player[j].afficheCoupSup = player[j].coupSup + '0';
-						}
-						*/
-
 					}
 
 				}
@@ -439,11 +384,6 @@ void jeu(Joueur* player, int* compteur)
 					{
 						player[j].bonus[i] = 2;
 
-						//si le coup d'avant était un strike alors le coup2 est doublé
-						/*if (player[j].bonus[i - 1] == 1)
-						{
-							player[j].coup2[i] = player[j].coup2[i] * 2;
-						}*/
 
 						player[j].afficheCoup2[i] = '/';
 						cout << endl << "Spare !!" << endl << endl;
@@ -459,44 +399,6 @@ void jeu(Joueur* player, int* compteur)
 					}
 
 				}
-
-
-
-				/*if (player[j].strikeBonus[i - 1] == 3)
-				{
-					player[j].total[i - 1] = player[j].total[i - 1] - 30;
-					player[j].total[i - 1] = player[j].total[i - 1] + 30;
-				}*/
-				/*else
-				{*/
-				//if (player[j].strikeBonus[i - 1] == 2)
-				//{
-				//	/*player[j].point[i-1] = 20;*/
-				//	/*if (player[j].coup1[i] != 10) 
-				//	{
-				//		player[j].coup1[i] = player[j].coup1[i] * 2;
-				//	}*/
-				//	
-				//	player[j].total[i - 1] = player[j].total[i - 1] + 20;
-
-				//}
-			//}
-
-
-			/*if (player[j].strikeBonus[i - 1] == 2)
-			{
-				player[j].coup1[i] = player[j].coup1[i] * 2;
-			}
-
-			if (player[j].strikeBonus[i - 1] == 3)
-			{
-				player[j].coup1[i] = player[j].coup1[i] * 2;
-			}*/
-
-
-
-
-
 
 
 			//si le coup d'avant était un spare ou strike alors le coup 1 est doublé
@@ -530,27 +432,6 @@ void jeu(Joueur* player, int* compteur)
 				{
 					player[j].coup2[i] = player[j].coup2[i] * 2;
 
-
-					/*if (player[j].bonus[i - 2] == 1 and player[j].bonus[i - 3] == 1 )
-					{
-						player[j].coup1[i] = player[j].coup1[i] * 2;
-						player[j].coup1[i - 3] = player[j].coup1[i - 3] + 10;
-
-					}
-
-					else
-					{
-						if (player[j].bonus[i - 2] == 1)
-						{
-							player[j].coup1[i] = player[j].coup1[i] * 2;
-
-						}
-						if (player[j].bonus[i - 3] == 1 and player[j].bonus[i - 2] == 1)
-						{
-							player[j].coup1[i - 3] = player[j].coup1[i - 3] - 10;
-
-						}
-					}*/
 
 				}
 
